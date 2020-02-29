@@ -1,12 +1,8 @@
 #define BAUD_RATE 115200
-#define UPDATE_INTERVAL 1000000
 
 const int led13Pin = 13;
 const int blueLEDPin = 2;
 int blueLED = 0;
-boolean readyToReceiveFlag = true;
-unsigned long  nowTime;
-unsigned long  lastWriteTime = 0;
 
 struct Readings
 {
@@ -28,30 +24,16 @@ void setup()
   delay(2000);
   putSettings();
   digitalWrite(blueLEDPin, blueLED);
-  lastWriteTime = micros();
-}
+ }
 
 void loop()
 {
-  if (readyToReceiveFlag)
+  if(Serial1.available() > 0)
   {
-    nowTime = micros();
-    if ((nowTime - lastWriteTime) > UPDATE_INTERVAL)
-    {
-      getReadings();
-      Serial1.write((uint8_t*)&readings, 4);
-      readyToReceiveFlag = false;
-    }
-  }
-  if (!readyToReceiveFlag)
-  {
-    while(Serial1.available() > 0)
-    {
-      Serial1.readBytes((uint8_t*)&settings, 4);
-      putSettings();
-      lastWriteTime = nowTime;
-      readyToReceiveFlag = true;
-    }
+    Serial1.readBytes((uint8_t*)&settings, 4);
+    putSettings();
+    getReadings();
+    Serial1.write((uint8_t*)&readings, 4);
   }
 }
 void putSettings()
@@ -61,7 +43,8 @@ void putSettings()
 }
 void getReadings()
 {
-    ++blueLED;
-    if (blueLED > 1) blueLED = 0;
-    digitalWrite(blueLEDPin, blueLED);
+  ++blueLED;
+  if (blueLED > 1) blueLED = 0;
+  digitalWrite(blueLEDPin, blueLED);
+  delay(1000);
 }
