@@ -18,12 +18,14 @@ struct Readings
   int interval;
   float avgInterval;
   float cpm;
+  char extraInfo[52];
 };
 Readings readings;
 
 struct Settings
 {
   float nsamples;
+  char extraInfo[60];
 };
 Settings settings;
 
@@ -43,6 +45,7 @@ void setup()
   readings.avgInterval = 0.0;
   settings.nsamples = 1.0;
   readings.cpm = 0.0;
+  for (int ii = 0; ii < 52; ++ii) readings.extraInfo[ii] = -1;
 
 }
 
@@ -81,10 +84,10 @@ void loop()
     }
     else
     {
-      Serial1.write((uint8_t*)&readings, 12);
+      Serial1.write((uint8_t*)&readings, 64);
       if(Serial1.available() > 0)
       { 
-        Serial1.readBytes((uint8_t*)&settings, 4);
+        Serial1.readBytes((uint8_t*)&settings, 64);
         lastPulse = 0;
         now = 0;
         readings.interval = 0;
