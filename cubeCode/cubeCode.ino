@@ -1,132 +1,125 @@
 #define BAUD_RATE 115200
-#define SETTING_EXTRA_BUFFER_SIZE 14
-#define READING_EXTRA_BUFFER_SIZE 10
-const boolean printDiagnosticText = false;
 
-const int led13Pin = 13;
-const int blueLEDPin = 2;
+struct TransmitData
+{
+  int intervalTime = 0;
+  float avgInterval = 0.0;
+  float cpm = 0.0;
+};
+struct ReceiveData
+{
+  float nsamples = 1.0;
+};
+
 const int geigerPin = 3;
 const int geigerLedPin = 5;
-
-boolean blueLED = false;
 boolean geigerLED = false;
-unsigned long duration;
-unsigned long lastPulse;
-unsigned long nowTime;
+unsigned long lastPulse = 0;
 
-struct Readings
+void setupPins()
 {
-  int cubeInit;
-  int newSettingDone;
-  int intervalTime;
-  float avgInterval;
-  float cpm;
-  float nsamples;
-  int extraInfo[READING_EXTRA_BUFFER_SIZE];
-};
-Readings readings;
+  pinMode(geigerLedPin, OUTPUT);    
+  pinMode(geigerPin, INPUT);
+  geigerLED = false;  
+  digitalWrite(geigerLedPin, geigerLED);
+}
+void processNewSetting(TransmitData* tData, ReceiveData* rData, ReceiveData* newData)
+{
+  lastPulse = 0;
+  tData->intervalTime = 0;
+  rData->nsamples = newData->nsamples;
+}
+boolean processData(TransmitData* tData, ReceiveData* rData)
+{
+  unsigned long nowTime = 0;
+  if (pulseIn(geigerPin, HIGH) < 200) return false;
+  nowTime = millis();
+  geigerLED = !geigerLED;
+  digitalWrite(geigerLedPin, geigerLED);
+  if (lastPulse > 0)
+  {
+    if (tData->intervalTime > 0)
+    {
+      tData->intervalTime = (int) (nowTime - lastPulse);
+      tData->avgInterval = tData->avgInterval + (((float) tData->intervalTime) - tData->avgInterval) / rData->nsamples;
+    }
+    else
+    {
+      tData->intervalTime = (int) (nowTime - lastPulse);
+      tData->avgInterval = (float) tData->intervalTime;
+    }
+    lastPulse = nowTime;
+    tData->cpm = 60000.0 / tData->avgInterval;
+  }
+  lastPulse = nowTime;
+  return true;
+}
 
-struct Settings
+const int microLEDPin = 13;
+const int commLEDPin = 2;
+boolean commLED = false;
+
+struct TXinfo
 {
-  int newSetting;
-  float nsamples;
-  int extraInfo[SETTING_EXTRA_BUFFER_SIZE];
+  int cubeInit = 1;
+  int newSettingDone = 0;
 };
-Settings settings;
+struct RXinfo
+{
+  int newSetting = 0;
+};
+
+struct TX
+{
+  TXinfo txInfo;
+  TransmitData txData;
+};
+struct RX
+{
+  RXinfo rxInfo;
+  ReceiveData rxData;
+};
+TX tx;
+RX rx;
+ReceiveData settingsStorage;
+
+int sizeOfTx = 0;
+int sizeOfRx = 0;
 
 void setup()
 {
   setupPins();
+  pinMode(microLEDPin, OUTPUT);    
+  pinMode(commLEDPin, OUTPUT);  
+  digitalWrite(commLEDPin, commLED);
+  digitalWrite(microLEDPin, commLED);
+
+  sizeOfTx = sizeof(tx);
+  sizeOfRx = sizeof(rx);
   Serial1.begin(BAUD_RATE);
   delay(2000);
-  lastPulse = 0;
-  nowTime = 0;
-  initReadingsAndSettings();
-
 }
-
 void loop()
 {
-  duration = pulseIn(geigerPin, HIGH);
-  if (duration > 200)
+  boolean goodData = false;
+  goodData = processData(&(tx.txData), &settingsStorage);
+  if (goodData)
   {
-    nowTime = millis();
-    if (lastPulse > 0)
-    {
-      if (readings.intervalTime > 0)
-      {
-        readings.intervalTime = (int) (nowTime - lastPulse);
-        readings.avgInterval = readings.avgInterval + (((float) readings.intervalTime) - readings.avgInterval) / readings.nsamples;
-      }
-      else
-      {
-        readings.intervalTime = (int) (nowTime - lastPulse);
-        readings.avgInterval = (float) readings.intervalTime;
-      }
-      lastPulse = nowTime;
-      readings.cpm = 60000.0 / readings.avgInterval;
-    }
-    lastPulse = nowTime;
-
-    if (printDiagnosticText)
-    {
-      Serial1.println(" ");
-      Serial1.print("interval : ");
-      Serial1.println(readings.intervalTime);
-      Serial1.print("avgInterval : ");
-      Serial1.println(readings.avgInterval);
-      Serial1.print("cpm : ");
-      Serial1.println(readings.cpm);
-    }
-    else
-    {
-      readings.newSettingDone = 0;
+    tx.txInfo.newSettingDone = 0;
+    if(Serial1.available() > 0)
+    { 
+      commLED = !commLED;
+      digitalWrite(commLEDPin, commLED);
+      Serial1.readBytes((uint8_t*)&rx, sizeOfRx);
       
-      if(Serial1.available() > 0)
-      { 
-        blueLED = !blueLED;
-        digitalWrite(blueLEDPin, blueLED);
-        Serial1.readBytes((uint8_t*)&settings, 64);
-        
-        if (settings.newSetting > 0)
-        {
-          lastPulse = 0;
-          nowTime = 0;
-          readings.intervalTime = 0;
-          readings.nsamples = settings.nsamples;
-          readings.newSettingDone = 1;
-          readings.cubeInit = 0;
-        }
+      if (rx.rxInfo.newSetting > 0)
+      {
+        processNewSetting(&(tx.txData), &settingsStorage, &(rx.rxData));
+        tx.txInfo.newSettingDone = 1;
+        tx.txInfo.cubeInit = 0;
       }
-      Serial1.write((uint8_t*)&readings, 64);
-
     }
-    geigerLED = !geigerLED;
-    digitalWrite(geigerLedPin, geigerLED);
-  }  
-}
-void setupPins()
-{
-  pinMode(led13Pin, OUTPUT);    
-  pinMode(blueLEDPin, OUTPUT);    
-  pinMode(geigerLedPin, OUTPUT);    
-  pinMode(geigerPin, INPUT);
-  blueLED = false;  
-  geigerLED = false;  
-  digitalWrite(blueLEDPin, blueLED);
-  digitalWrite(led13Pin, blueLED);
-  digitalWrite(geigerLedPin, geigerLED);
-}
-void initReadingsAndSettings()
-{
-  readings.intervalTime = 0;
-  readings.avgInterval = 0.0;
-  readings.cpm = 0.0;
-  readings.newSettingDone = 0;
+    Serial1.write((uint8_t*)&tx, sizeOfTx);
+  }
   
-  readings.nsamples = 1.0;
-  settings.newSetting = 0;
-  readings.cubeInit = 1;
-  for (int ii = 0; ii < READING_EXTRA_BUFFER_SIZE; ++ii) readings.extraInfo[ii] = 0;
-  for (int ii = 0; ii < SETTING_EXTRA_BUFFER_SIZE; ++ii) settings.extraInfo[ii] = 0;
 }
