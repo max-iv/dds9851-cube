@@ -2,56 +2,41 @@
 
 struct TransmitData
 {
-  int intervalTime = 0;
-  float avgInterval = 0.0;
-  float cpm = 0.0;
+  int ledState = 0;
 };
 struct ReceiveData
 {
-  float nsamples = 1.0;
+  int ledOn = 0;
+  int ledToggle = 0;
+  int loopDelay = 5000;
 };
 
-const int geigerPin = 3;
-const int geigerLedPin = 5;
-boolean geigerLED = false;
-unsigned long lastPulse = 0;
+const int ledPin = 13;
 
 void setupPins()
 {
-  pinMode(geigerLedPin, OUTPUT);    
-  pinMode(geigerPin, INPUT);
-  geigerLED = false;  
-  digitalWrite(geigerLedPin, geigerLED);
+  pinMode(ledPin, OUTPUT);    
+  digitalWrite(ledPin, 0);
 }
 void processNewSetting(TransmitData* tData, ReceiveData* rData, ReceiveData* newData)
 {
-  lastPulse = 0;
-  tData->intervalTime = 0;
-  rData->nsamples = newData->nsamples;
-}
+  rData->ledOn = newData->ledOn;
+  rData->ledToggle = newData->ledToggle;
+  rData->loopDelay = newData->loopDelay;
+ }
 boolean processData(TransmitData* tData, ReceiveData* rData)
 {
-  unsigned long nowTime = 0;
-  if (pulseIn(geigerPin, HIGH) < 200) return false;
-  nowTime = millis();
-  geigerLED = !geigerLED;
-  digitalWrite(geigerLedPin, geigerLED);
-  if (lastPulse > 0)
+  if(rData->ledToggle == 1)
   {
-    if (tData->intervalTime > 0)
-    {
-      tData->intervalTime = (int) (nowTime - lastPulse);
-      tData->avgInterval = tData->avgInterval + (((float) tData->intervalTime) - tData->avgInterval) / rData->nsamples;
-    }
-    else
-    {
-      tData->intervalTime = (int) (nowTime - lastPulse);
-      tData->avgInterval = (float) tData->intervalTime;
-    }
-    lastPulse = nowTime;
-    tData->cpm = 60000.0 / tData->avgInterval;
+    tData->ledState = tData->ledState + 1; 
+    if (tData->ledState > 1) tData->ledState = 0;
   }
-  lastPulse = nowTime;
+  else
+  {
+    tData->ledState = rData->ledOn;
+  }
+  digitalWrite(ledPin,  tData->ledState);
+  delay(rData->loopDelay);
   return true;
 }
 
