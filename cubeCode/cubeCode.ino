@@ -6,9 +6,9 @@ struct TransmitData
 };
 struct ReceiveData
 {
-  int ledOn = 0;
-  int ledToggle = 0;
-  int loopDelay = 5000;
+  int ledOn = 1;
+  int ledToggle = 1;
+  int loopDelay = 2000;
 };
 
 const int ledPin = 13;
