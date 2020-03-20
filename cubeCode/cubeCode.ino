@@ -16,7 +16,7 @@ const int ledPin = 13;
 void setupPins()
 {
   pinMode(ledPin, OUTPUT);    
-  digitalWrite(ledPin, 0);
+  digitalWrite(ledPin, LOW);
 }
 void processNewSetting(TransmitData* tData, ReceiveData* rData, ReceiveData* newData)
 {
@@ -42,7 +42,7 @@ boolean processData(TransmitData* tData, ReceiveData* rData)
 
 const int microLEDPin = 13;
 const int commLEDPin = 2;
-boolean commLED = false;
+boolean commLED = true;
 
 struct TXinfo
 {
@@ -77,12 +77,12 @@ void setup()
   pinMode(microLEDPin, OUTPUT);    
   pinMode(commLEDPin, OUTPUT);  
   digitalWrite(commLEDPin, commLED);
-  digitalWrite(microLEDPin, commLED);
+//  digitalWrite(microLEDPin, commLED);
 
   sizeOfTx = sizeof(tx);
   sizeOfRx = sizeof(rx);
   Serial1.begin(BAUD_RATE);
-  delay(2000);
+  delay(1000);
 }
 void loop()
 {
