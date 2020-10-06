@@ -1,11 +1,11 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# PJ-102A-dk_Barrel-Power-Connectors
+# PJ-102A-dk_Barrel-Power-Connectors-blinky-lite-basic-rescue-dds9851-rescue
 #
-DEF PJ-102A-dk_Barrel-Power-Connectors J 0 40 Y Y 1 F N
+DEF PJ-102A-dk_Barrel-Power-Connectors-blinky-lite-basic-rescue-dds9851-rescue J 0 40 Y Y 1 F N
 F0 "J" 0 100 50 H V C CNN
-F1 "PJ-102A-dk_Barrel-Power-Connectors" 0 -250 50 H V C CNN
+F1 "PJ-102A-dk_Barrel-Power-Connectors-blinky-lite-basic-rescue-dds9851-rescue" 0 -250 50 H V C CNN
 F2 "digikey-footprints:Barrel_Jack_5.5mmODx2.1mmID_PJ-102A" 200 200 60 H I L CNN
 F3 "https://www.cui.com/product/resource/digikeypdf/pj-102a.pdf" 200 300 60 H I L CNN
 F4 "CP-102A-ND" 200 400 60 H I L CNN "Digi-Key_PN"
