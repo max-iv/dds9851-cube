@@ -1,4 +1,5 @@
 (fp_lib_table
   (lib (name TeensyFootprints)(type KiCad)(uri ${KIPRJMOD}/Library/Teensy/TeensyFootprints)(options "")(descr ""))
   (lib (name dmcginnis427Footprints)(type KiCad)(uri ${KIPRJMOD}/Library/dmcginnis427Footprints)(options "")(descr ""))
+  (lib (name AD9851)(type KiCad)(uri /home/dmcginnis427/Dropbox/gitRepositories/dds9851-cube/schematics/kiCad/Library/AD9851)(options "")(descr ""))
 )

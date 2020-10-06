@@ -1,4 +1,5 @@
 (sym_lib_table
   (lib (name dmcginnis427)(type Legacy)(uri ${KIPRJMOD}/Library/dmcginnis427Symbols/dmcginnis427.lib)(options "")(descr ""))
   (lib (name teensy)(type Legacy)(uri ${KIPRJMOD}/Library/Teensy/symbols/teensy.lib)(options "")(descr ""))
+  (lib (name ad9851)(type Legacy)(uri /home/dmcginnis427/Dropbox/gitRepositories/dds9851-cube/schematics/kiCad/Library/AD9851/AD9851BRSZ.lib)(options "")(descr ""))
 )
