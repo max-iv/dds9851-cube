@@ -1,5 +1,4 @@
 (sym_lib_table
   (lib (name dmcginnis427)(type Legacy)(uri ${KIPRJMOD}/Library/dmcginnis427Symbols/dmcginnis427.lib)(options "")(descr ""))
   (lib (name teensy)(type Legacy)(uri ${KIPRJMOD}/Library/Teensy/symbols/teensy.lib)(options "")(descr ""))
-  (lib (name dds9851-rescue)(type Legacy)(uri ${KIPRJMOD}/dds9851-rescue.lib)(options "")(descr ""))
 )
