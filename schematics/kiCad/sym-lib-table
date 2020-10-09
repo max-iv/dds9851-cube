@@ -1,5 +1,8 @@
 (sym_lib_table
   (lib (name dmcginnis427)(type Legacy)(uri ${KIPRJMOD}/Library/dmcginnis427Symbols/dmcginnis427.lib)(options "")(descr ""))
   (lib (name teensy)(type Legacy)(uri ${KIPRJMOD}/Library/Teensy/symbols/teensy.lib)(options "")(descr ""))
-  (lib (name ad9851)(type Legacy)(uri /home/dmcginnis427/Dropbox/gitRepositories/dds9851-cube/schematics/kiCad/Library/AD9851/AD9851BRSZ.lib)(options "")(descr ""))
+  (lib (name ad9851)(type Legacy)(uri ${KIPRJMOD}/Library/AD9851/AD9851BRSZ.lib)(options "")(descr ""))
+  (lib (name MCP1700)(type Legacy)(uri ${KIPRJMOD}/Library/MCP1700T-3302E_TT/MCP1700T-3302E_TT.lib)(options "")(descr ""))
+  (lib (name LTC6957)(type Legacy)(uri ${KIPRJMOD}/Library/LTC6957HMS-4_PBF/LTC6957HMS-4_PBF.lib)(options "")(descr ""))
+  (lib (name SMA_Female)(type Legacy)(uri ${KIPRJMOD}/Library/SMA_Female/SMA_Female.lib)(options "")(descr ""))
 )

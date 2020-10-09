@@ -1,5 +1,8 @@
 (fp_lib_table
   (lib (name TeensyFootprints)(type KiCad)(uri ${KIPRJMOD}/Library/Teensy/TeensyFootprints)(options "")(descr ""))
   (lib (name dmcginnis427Footprints)(type KiCad)(uri ${KIPRJMOD}/Library/dmcginnis427Footprints)(options "")(descr ""))
-  (lib (name AD9851)(type KiCad)(uri /home/dmcginnis427/Dropbox/gitRepositories/dds9851-cube/schematics/kiCad/Library/AD9851)(options "")(descr ""))
+  (lib (name AD9851)(type KiCad)(uri ${KIPRJMOD}/Library/AD9851)(options "")(descr ""))
+  (lib (name MCP1700T)(type KiCad)(uri ${KIPRJMOD}/Library/MCP1700T-3302E_TT)(options "")(descr ""))
+  (lib (name LTC6957)(type KiCad)(uri ${KIPRJMOD}/Library/LTC6957HMS-4_PBF)(options "")(descr ""))
+  (lib (name SMA_Female)(type KiCad)(uri ${KIPRJMOD}/Library/SMA_Female)(options "")(descr ""))
 )

@@ -1,4 +1,4 @@
-18371693304534970
+18378101277656830
 AD9851
 SOP65P780X200-28N
 
@@ -56013,6 +56013,27 @@ Yellow 5381 Series LED
 0
 2
 2
+LTC6957
+SOP65P490X110-12N
+
+
+0
+12
+12
+MCP1700T
+SOT89R
+
+
+0
+4
+4
+MCP1700T
+SOT95P237X112-3N
+
+
+0
+3
+3
 Module
 A20_OLINUXINO_LIME2
 A20 Olinuxino LIME2, 1.2GHz, 512-1024MB RAM, Micro-SD, NAND or eMMC, 1000Mbit Ethernet
@@ -74220,6 +74241,13 @@ rotary encoder
 0
 5
 4
+SMA_Female
+SMA_Female
+
+
+0
+5
+5
 Sensor
 Aosong_DHT11_5.5x12.0_P2.54mm
 Temperature and humidity module, http://akizukidenshi.com/download/ds/aosong/DHT11.pdf
