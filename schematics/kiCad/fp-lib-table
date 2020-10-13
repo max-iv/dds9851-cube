@@ -4,5 +4,5 @@
   (lib (name AD9851)(type KiCad)(uri ${KIPRJMOD}/Library/AD9851)(options "")(descr ""))
   (lib (name MCP1700T)(type KiCad)(uri ${KIPRJMOD}/Library/MCP1700T-3302E_TT)(options "")(descr ""))
   (lib (name LTC6957)(type KiCad)(uri ${KIPRJMOD}/Library/LTC6957HMS-4_PBF)(options "")(descr ""))
-  (lib (name SMA_Female)(type KiCad)(uri ${KIPRJMOD}/Library/SMA_Female)(options "")(descr ""))
+  (lib (name 2985-6004)(type KiCad)(uri ${KIPRJMOD}/Library/2985-6004)(options "")(descr ""))
 )

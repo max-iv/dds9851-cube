@@ -4,5 +4,5 @@
   (lib (name ad9851)(type Legacy)(uri ${KIPRJMOD}/Library/AD9851/AD9851BRSZ.lib)(options "")(descr ""))
   (lib (name MCP1700)(type Legacy)(uri ${KIPRJMOD}/Library/MCP1700T-3302E_TT/MCP1700T-3302E_TT.lib)(options "")(descr ""))
   (lib (name LTC6957)(type Legacy)(uri ${KIPRJMOD}/Library/LTC6957HMS-4_PBF/LTC6957HMS-4_PBF.lib)(options "")(descr ""))
-  (lib (name SMA_Female)(type Legacy)(uri ${KIPRJMOD}/Library/SMA_Female/SMA_Female.lib)(options "")(descr ""))
+  (lib (name 2985-6004)(type Legacy)(uri ${KIPRJMOD}/Library/2985-6004/2985-6004.lib)(options "")(descr ""))
 )
